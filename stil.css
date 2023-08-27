@@ -1,0 +1,60 @@
+.kuglicaa {
+    width: 70px; /* Postavite željenu širinu i visinu za kuglicu */
+    height: 70px;
+    background-color: #ff0000; /* Postavite željenu boju pozadine */
+    border-radius: 50%; /* Radijus da bi se dobio oblik kuglice */
+    display: inline-flex; /* Da biste centrirali broj unutar kuglice */
+    align-items: center; /* Da biste vertikalno centrirali broj unutar kuglice */
+    justify-content: center; /* Da biste horizontalno centrirali broj unutar kuglice */
+    color: white; /* Boja broja */
+    font-size: 24px; /* Veličina fonta za broj */
+    font-weight: bold; /* Debljina fonta za broj */
+    margin: 10px; /* Margina između kuglica */
+}
+
+.bubanj {
+        width: 490px; /* Postavite željenu širinu i visinu za kuglicu */
+        height: 150px;
+        background-color: #007bff; /* Postavite željenu boju pozadine */
+        border-radius: 50%; /* Radijus da bi se dobio oblik kuglice */
+        display: inline-flex; /* Da biste centrirali broj unutar kuglice */
+        align-items: center; /* Da biste vertikalno centrirali broj unutar kuglice */
+        justify-content: center; /* Da biste horizontalno centrirali broj unutar kuglice */
+        color: white; /* Boja broja */
+        font-size: 24px; /* Veličina fonta za broj */
+        font-weight: bold; /* Debljina fonta za broj */
+        margin: 10px; /* Margina između kuglica */
+        
+}
+
+.kuglica {
+    width: 50px; /* Postavite željenu širinu i visinu za kuglicu */
+    height: 50px;
+    background-color: #ff0000; /* Postavite željenu boju pozadine */
+    border-radius: 50%; /* Radijus da bi se dobio oblik kuglice */
+    text-align: center; /* Da biste centrirali broj unutar kuglice */
+    align-items: center; /* Da biste vertikalno centrirali broj unutar kuglice */
+    justify-content: center; /* Da biste horizontalno centrirali broj unutar kuglice */
+    color: white; /* Boja broja */
+    font-size: 24px; /* Veličina fonta za broj */
+    font-weight: bold; /* Debljina fonta za broj */
+    margin-left: 36px; /* Margina između kuglica */
+    margin-top: 20px;
+}
+
+.broj{
+    display: block;
+    margin-top: 10px;
+}
+
+.tekst {
+    text-align: center; /* Centrirajte tekst */
+    margin-top: 20px; /* Dodajte razmak iznad teksta prema potrebi */
+}
+
+
+
+
+
+
+
