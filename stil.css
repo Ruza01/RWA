@@ -14,7 +14,7 @@
         
 }
 
-.broj{
+.broj1, .broj2, .broj3, .broj4, .broj5, .broj6, .broj7, .broj8{
     display: block;
     margin-top: 10px;
 }
@@ -26,8 +26,21 @@
 
 .Sekcijaboje{
     width: 50px; 
-    height: 50px;
-    background-color: #ff0000; 
+    height: 50px; 
+    border-radius: 50%; 
+    text-align: center; 
+    align-items: center; 
+    justify-content: center; 
+    color: white; 
+    font-size: 24px; 
+    font-weight: bold; 
+    margin: 10px;
+    border: 1px solid black;
+}
+
+.SekcijabojeRed, .SekcijabojeGreen, .SekcijabojeYellow, .SekcijabojeBlue, .SekcijabojeBlueviolet, .SekcijabojeOrange, .SekcijabojeBlack, .SekcijabojeBrown{
+    width: 50px; 
+    height: 50px; 
     border-radius: 50%; 
     text-align: center; 
     align-items: center; 

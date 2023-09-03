@@ -54,7 +54,7 @@
         <div class="containerTiket">
           <div class="DivZaglavlje">Tiket</div>
           <div class="DivGlavni">
-            <button type="button" class="btn btn-light" style="margin-bottom: 10px; margin-top: 10px; margin-left: 40px; margin-right: 40px;">Parnost</button>
+            <button type="button" class="btn" style="margin-bottom: 10px; margin-top: 10px; margin-left: 40px; margin-right: 40px;">Parnost</button>
             <button type="button" class="btn btn-light" style="margin-bottom: 10px; margin-top: 10px; margin-left: 40px; margin-right: 40px;">Brojevi</button>
             <button type="button" class="btn btn-light" style="margin-bottom: 10px; margin-top: 10px; margin-left: 40px; margin-right: 40px;">Boje</button>
             <button type="button" class="btn btn-light" style="margin-bottom: 10px; margin-top: 10px; margin-left: 40px; margin-right: 40px;">Bubanj</button>
@@ -74,29 +74,29 @@
             <div class="KladjenjeNaBoje" style="width: 40%; font-size: 25px; display: flex; flex-direction: column; border-right: 1px solid black;">             
               <label style="width: 100%; border-bottom: 1px solid black; padding-left: 15px ;">Boje</label>
               <div class="DivIspodBoje" style="display: flex;">
-                <div class="Sekcijaboje" style="background-color: rgb(255, 0, 0);">
-                  <span class="broj">1</span>
+                <div class="SekcijabojeRed" style="background-color: rgb(255, 0, 0);">
+                  <span class="broj1"></span>
                 </div>
-                <div class="Sekcijaboje" style="background-color: rgb(0, 255, 0)">
-                  <span class="broj">2</span>
+                <div class="SekcijabojeGreen" style="background-color: rgb(0, 255, 0)">
+                  <span class="broj2"></span>
                 </div>
-                <div class="Sekcijaboje" style="background-color: rgb(205, 205, 0);">
-                  <span class="broj">3</span>
+                <div class="SekcijabojeYellow" style="background-color: rgb(205, 205, 0);">
+                  <span class="broj3"></span>
                 </div>
-                <div class="Sekcijaboje" style="background-color: blue;">
-                  <span class="broj">4</span>
+                <div class="SekcijabojeBlue" style="background-color: blue;">
+                  <span class="broj4"></span>
                 </div>
-                <div class="Sekcijaboje" style="background-color: blueviolet;">
-                  <span class="broj">5</span>
+                <div class="SekcijabojeBlueviolet" style="background-color: blueviolet;">
+                  <span class="broj5"></span>
                 </div>
-                <div class="Sekcijaboje" style="background-color: orangered;">
-                  <span class="broj">6</span>
+                <div class="SekcijabojeOrange" style="background-color: orangered;">
+                  <span class="broj6"></span>
                 </div>
-                <div class="Sekcijaboje" style="background-color: black;">
-                  <span class="broj">7</span>
+                <div class="SekcijabojeBlack" style="background-color: black;">
+                  <span class="broj7"></span>
                 </div>
-                <div class="Sekcijaboje" style="background-color: rgb(99, 0, 0);">
-                  <span class="broj">8</span>
+                <div class="SekcijabojeBrown" style="background-color: rgb(99, 0, 0);">
+                  <span class="broj8"></span>
                 </div>
               </div> 
             </div>
@@ -104,7 +104,7 @@
                 <label style="width: 100%; border-bottom: 1px solid black; padding-left: 20px;">Suma prvih 5</label>
                 <label class="labelResult" style="margin-left: 60px; margin-top: 15px;"></label>
             </div>
-            <div class="ParNepar" style="width: 30%; font-size: 25px; border-right: 1px solid black;">
+            <div class="ParNepar" style="width: 28%; font-size: 25px; border-right: 1px solid black;">
                 <label style="width: 100%; border-bottom: 1px solid black; padding-left: 10px;">Par/Nepar</label>
                 <div class="Par" style="width: 100%; font-size: 25px; height: 35px; display: flex; flex-direction: column;">
                     <label class="Par" style="padding-left: 10px; display: flex;">
@@ -118,8 +118,11 @@
                     <div class="Nepar" style="width: 100%; font-size: 25px; height: 35px;"></div>
                 </div>
             </div>
-            <div class="Divpn" style="width: 17%; font-size: 25px">
-                <label style="width: 100%; border-bottom: 1px solid black">Nzm sta tu</label>
+            <div class="DivMinIJackpot" style="width: 19%; font-size: 25px; display: flex; flex-wrap: wrap;">
+                <label style="width: 50%; border-bottom: 1px solid black; padding-left: 10px; border-right: 1px solid black; height: 38px;">Minimalni</label>
+                <label style="width: 50%; border-bottom: 1px solid black; padding-left: 25px; height: 38px;">Jackpot</label>
+                <div class="divMin" style="border-right: 1px solid black;height: 77px; width: 50%; padding-left: 7px; padding-top: 12px;"></div>
+                <div class="divJackpot" style="height: 77px; width: 50%;"></div>
             </div>
         </div>
         </div>
