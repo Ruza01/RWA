@@ -11,6 +11,9 @@ let countBlueviolet = 0;
 let countOrange = 0;
 let countBlack = 0;
 let countBrown = 0;
+let ticket = false;
+let ulog = 0;
+let checkBox = false;
 
 function getNumbers(): Observable<any>{
     const promise = fetch(url)
@@ -19,7 +22,6 @@ function getNumbers(): Observable<any>{
                 throw new Error("lucky-six not found");
             }
             else {
-                //ako je sve ok, treba da parsiramo
                 return response.json();
             }
         })
@@ -31,57 +33,29 @@ function generateRandomNumbersAndColors() {
     getNumbers()
         .pipe(
             switchMap(response => {
-                // Prvo mešamo niz slučajnim redosledom
                 const shuffledResponse = shuffle(response);
-
-                //Odaberemo prvih 35 brojeva iz mesanog niza
-                const selectedNumbers = shuffledResponse.slice(0,35);
-
-                // Zatim emitujemo brojeve sa bojama svake 2 sekunde
+                const selectedNumbers = shuffledResponse.slice(0,35);                           //izdvaja podniz od niza,pocetak i kraj 0 i 35
+                
                 return interval(1000).pipe(
-                    filter(i => i < selectedNumbers.length), // Zadržavamo se dok ne dostignemo kraj niza
+                    filter(i => i < selectedNumbers.length),                                    // Zadržavamo se dok ne dostignemo kraj niza
                     map(i => {
                         const randomItem = selectedNumbers[i];
                         colorCount(randomItem.color);
-                        const parity = determineParity(randomItem.id);
+                        const parity = odrediParnost(randomItem.id);
                         const divParr = document.createElement("div");
                         const divNeparr = document.createElement("div");
                         if(parity == 'paran'){
-                            divParr.style.backgroundColor = 'blue';
-                            divParr.style.width = '7px';
-                            divParr.style.height = '25px';
-                            divParr.style.border = '1px solid black';
-                            divParr.style.marginLeft = '10px';
-                            divParr.style.marginTop = '5px';
-                            
+                            divParr.className = 'paran';
                             document.querySelector(".divPar").appendChild(divParr);
                         }else{
-                            divNeparr.style.backgroundColor = 'blue';
-                            divNeparr.style.width = '7px';
-                            divNeparr.style.height = '25px';
-                            divNeparr.style.border = '1px solid black';
-                            divNeparr.style.marginLeft = '10px';
-                            divNeparr.style.marginTop = '5px';
+                            divNeparr.className = 'neparan';
                             document.querySelector(".divNepar").appendChild(divNeparr);   
                         }
 
-                        //generise novi div
                         const newDiv = document.createElement("div");
                         newDiv.className = `kuglica${randomItem.id}`;
                         newDiv.innerHTML = `<span class="broj">${randomItem.id}</span>`;
                         newDiv.style.backgroundColor = randomItem.color;
-                        newDiv.style.borderRadius = '50px';
-                        newDiv.style.height = '50px';
-                        newDiv.style.width = '50px';
-                        newDiv.style.textAlign = 'center';
-                        newDiv.style.alignItems = 'center';
-                        newDiv.style.justifyContent = 'center';
-                        newDiv.style.fontSize = '24px';
-                        newDiv.style.fontWeight = 'bold';
-                        newDiv.style.color = 'white';
-                        newDiv.style.marginLeft = '36px';
-                        newDiv.style.marginTop = '20px';
-                        newDiv.style.border = '1px solid black';
                         if(i < 5){
                             document.querySelector('.bubanj').appendChild(newDiv);
                             newDiv.style.height = '70px';
@@ -91,17 +65,20 @@ function generateRandomNumbersAndColors() {
                         }else{
                             document.querySelector('.containerLoptice').appendChild(newDiv);
                         }
-                        console.log(`Broj: ${randomItem.id}, Boja: ${randomItem.color}`);
+
                         if (i === 4) {
                             const sumOfFirstFive = sumFirstFiveNumbers(shuffledResponse);
                             const labelSuma = document.querySelector('.labelResult');
                             labelSuma.textContent = `${sumOfFirstFive}`;
                         }
+
                         if(i == selectedNumbers.length - 1){
                             const minimumNumber = findMinimumNumber(selectedNumbers);
-                            //console.log(`${minimumNumber.id}`);
+                            const maximumNumber = findMaximumNumber(selectedNumbers);
                             let minimalni = document.querySelector(".divMin");
+                            let maximalni = document.querySelector(".divMax");
                             minimalni.textContent = `${minimumNumber.id}`;
+                            maximalni.textContent = `${maximumNumber.id}`;
                         }
                         
                         
@@ -112,29 +89,33 @@ function generateRandomNumbersAndColors() {
         )
         .subscribe();
 }
-// Funkcija za mešanje niza
-function shuffle(array: any) {
-    const newArray = [...array]; // Pravimo kopiju niza da ne bismo menjali originalni
+
+function shuffle(array: any){
+    const newArray = [...array];                                                             
     for (let i = newArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Zamena elemenata
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];                               
     }
     return newArray;
 }
 
-//generateRandomNumbersAndColors();
+generateRandomNumbersAndColors();
 
-function sumFirstFiveNumbers(shuffledResponse: any[]): number {
-    return shuffledResponse.reduce((sum, current, index) => {
+function sumFirstFiveNumbers(shuffledResponse: any[]): number {  
+    return shuffledResponse.reduce((acc, current, index) => {
         if (index < 5) {
-            return sum + current.id;
+            return acc + current.id;
         }
-        return sum;
+        return acc;
     }, 0);
 }
 
-function determineParity(number: number): string {
-    return number % 2 === 0 ? 'paran' : 'neparan';
+function odrediParnost(number: number): string {
+    if(number % 2 === 0){
+        return 'paran';
+    }else{
+        return 'neparan';
+    }
 }
 
 function colorCount(color: string) {
@@ -181,24 +162,31 @@ function colorCount(color: string) {
     }
 }
 
-// Funkcija za pronalaženje minimalnog elementa
 function findMinimumNumber(numbers: any[]) {
-    if (numbers.length === 0) {
-        return null; // Ako je niz prazan, vratite null
-    }
-
-    let minimum = numbers[0]; // Pretpostavljamo da je prvi element minimum
+    let minimum = numbers[0]; 
 
     numbers.forEach((number) => {
         if (number.id < minimum.id) {
-            minimum = number; // Ako pronađemo manji broj, postavljamo ga kao minimum
+            minimum = number; 
         }
     });
-
     return minimum;
 }
 
+function findMaximumNumber(numbers: any[]) {
+    let maximum = numbers[0]; 
+
+    numbers.forEach((number) => {
+        if (number.id > maximum.id) {
+            maximum = number;
+        }
+    });
+    return maximum;
+}
+//============================================do ovde sam sredjivao kod
 function generateJackpot(){
+    const stopGenerating$ = new Subject();
+
 // Kreiranje prvog observabla (obs1)
 const obs1$ = new Observable((observer) => {
     setInterval(() => {
@@ -221,98 +209,101 @@ const obs1$ = new Observable((observer) => {
   
   // Pretvaranje rezultata u niz i ispisivanje na ekranu
   mergedObservable.pipe(
+    takeUntil(stopGenerating$),
     take(6) 
   ).subscribe((result) => {
    // Ovde dodajemo svaki broj u divJackpot
-    const divJackpot = document.querySelector(".divJackpot");
+    const divJackpot = document.querySelector(".active");
     const numberElement = document.createElement("div");
+    numberElement.style.margin = '7px';
+    numberElement.style.border = '1px solid black';
+    numberElement.style.width = '50px';
+    numberElement.style.height = '50px';
+    numberElement.style.borderRadius = '40px';
+    numberElement.style.textAlign = 'center';
+    numberElement.style.alignItems = 'center';
+    numberElement.style.justifyContent = 'center';
+    numberElement.style.fontWeight = 'bold';
+    numberElement.style.backgroundColor = 'red';
+    numberElement.style.color = 'white';
+    numberElement.style.fontSize = '24px';
     numberElement.textContent = `${result}`;
     divJackpot.appendChild(numberElement);
   });
+
+  // Nakon što su generirana 6 brojeva, emitiramo događaj za završetak generiranja
+  setTimeout(() => {
+    stopGenerating$.next(-1);
+    stopGenerating$.complete();
+  }, 5000); // Ovdje možete postaviti željeni uvjet za završetak generiranja
 }
 
 generateJackpot();
 
+const myButton = document.getElementById('myButton') as HTMLButtonElement;
 
+function popuniTiket(): any {
+    // Pronađite sva dugmad po njihovim ID-ovima i sačuvajte ih u promenljive
+    const clickedElements: HTMLElement[] = [];
+    const returnElements: string[] = [];
+    const buttons = Array.from(Array(48).keys()).map((i) => document.getElementById(`button${i + 1}`));
 
-
-
-
-
-/*function combineTimerAndLuckySix() {
-    // Observable koji koristi timer da emituje vrednosti svakih 5 sekundi
-    const timer$ = timer(0, 5000);
-  
-    // Observable koji dobijate iz funkcije getNumbers()
-    const luckySix$ = getNumbers().pipe(
-      switchMap(response => {
-        // Implementacija za generisanje brojeva i boja
-        return interval(1000).pipe(
-            filter(i => i < response.length),
-            map(i => {
-                const randomItem = response[i];
-                console.log(randomItem);
-            })
-        )
+    // Dodajte slušač događaja za svako dugme
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        // Promenite klasu dugmeta na "circular-button disabled"
+        button.style.backgroundColor = 'gray';
+        clickedElements.push(button);
+        //if (button instanceof HTMLInputElement) {
+            const buttonValue = button.textContent;
+            console.log(buttonValue);
+            returnElements.push(buttonValue);
+            if(clickedElements.length == 6){
+                console.log(returnElements);
+                return returnElements;
+            }
+           
+            
+       // }
+        //button.disabled = true;
+        //button.classList.add('circular-button.disabled');
       })
-    );
-  
-    // Kombinujte ova dva observabla koristeći zip operator
-    zip(timer$, luckySix$)
+    });
 
-      .subscribe(([_, luckySixData]) => {
-        // Ovde možete raditi nešto sa podacima iz luckySixData kada timer emituje vrednost
-        console.log('Podaci iz Lucky Six:', luckySixData);
-      });
-  }
-  
-  // ...
-  
-  // Poziv funkcije za kombinovanje timer-a i Lucky Six observabli
-  combineTimerAndLuckySix();*/
-
-
-
-/*const startButton = document.querySelector(".btn.btn-outline-success");
-const stopButton = document.querySelector(".btn.btn-outline-danger");
-
-console.log(startButton);
-console.log(stopButton);
-
-const stopClick$ = fromEvent(stopButton,'click');
-const startClick$ = fromEvent(startButton,'click').pipe(
-    takeUntil(stopClick$)
-);
-
-startClick$.subscribe(() => {
-    generateRandomNumbersAndColors();
-});*/
-
-
-
-/*function execInterval(ob$: Observable<any>): Subscription {
-    return generateRandomNumbersAndColors().pipe(
-        takeUntil(ob$)
-    ).subscribe((x: string) => console.log('timer' + x));
 }
 
-function createUnSubscribeButtonn(subject$: Subject<any>){
-    const button = document.querySelector(".btn.btn-outline-danger") as HTMLElement;
-    button.onclick = () => {
-        //kad hocemo da prekinemo, praksa je, emitovanje sledece vrednsoti pa prekidanje
-        console.log("Control stream closed");
-        subject$.next(1);
-        subject$.complete();
-        
-    }
-}
-
-const controlFlow$ = new Subject();
-
-execInterval(controlFlow$);
-createUnSubscribeButtonn(controlFlow$);*/
+  // Pozovite funkciju kada se dokument učita
+    document.addEventListener('DOMContentLoaded', () => {
+    popuniTiket();
+});
 
 
+
+
+
+
+// function Ulog() {
+//         const inputEl = document.querySelector(".form-control");
+//         // da li je inputEl nadjen
+//         if (inputEl instanceof HTMLInputElement) {
+//             const inputValue = inputEl.textContent;
+//             //const numericValue = parseFloat(inputValue);
+//             console.log(inputValue);
+//            //return inputValue;
+//         }
+// }
+
+// Ulog();
+
+
+// function startGame(){
+//     if(checkBox == true){
+//         ulog = Ulog();
+//         console.log(ulog);
+//     }
+// }
+
+// startGame();
 
 
 

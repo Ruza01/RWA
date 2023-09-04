@@ -10,8 +10,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./dist/bundle.js"></script>
   </head>
-  <body class="p-3 m-0 border-0 bd-example m-0 border-0" style="background-color: green">    
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: white; border: 5px; border-radius: 30px;">
+
+
+  <body class="p-3 m-0 border-0 bd-example m-0 border-0" id="body">    
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navigacija">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="/assets/logo-balls.png">
@@ -19,14 +21,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Do pocetka sledeceg kola:  01:44</a>
+              <a class="nav-link active" aria-current="page" href="#" id="JackpotTop"></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" style=" width:55px; margin-left: 30px;" href="#">Kolo 199</a>
-            </li>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" style=" width:100px; margin-left: 30px;" id="pravilnik-link">Pravilnik igre</a>
+              <a class="nav-link active" id="pravilnik-link">Pravilnik igre</a>
               <div id="pravilnik-info" class="hidden-info">
                 Igra pocinje klikom na dugme "Start Balls!"
                 Nakon toga birate jedan od nacina kladjenja.
@@ -39,90 +37,131 @@
             </div>
             </li>
           </ul>
-            <button class="btn btn-outline-success" type="submit" style="width: 170px; height: 50px ; margin-left: 15px ;">Start Balls!</button>
-            <button class="btn btn-outline-danger" type="submit" style="width: 170px; height: 50px ; margin-left: 18px;">Stop Balls!</button>
+            <button class="btn btn-outline-success" type="submit" id="restartBalls">Restart Balls!</button>
         </div>
       </div>
     </nav>
 
     <div class="glavniContainer">
         <div class="containerLoptice">
-          <div class="bubanj">
-            
-          </div>
+          <div class="bubanj"></div>
         </div>
         <div class="containerTiket">
           <div class="DivZaglavlje">Tiket</div>
           <div class="DivGlavni">
-            <button type="button" class="btn" style="margin-bottom: 10px; margin-top: 10px; margin-left: 40px; margin-right: 40px;">Parnost</button>
-            <button type="button" class="btn btn-light" style="margin-bottom: 10px; margin-top: 10px; margin-left: 40px; margin-right: 40px;">Brojevi</button>
-            <button type="button" class="btn btn-light" style="margin-bottom: 10px; margin-top: 10px; margin-left: 40px; margin-right: 40px;">Boje</button>
-            <button type="button" class="btn btn-light" style="margin-bottom: 10px; margin-top: 10px; margin-left: 40px; margin-right: 40px;">Bubanj</button>
+            <button class="circular-button" id="button1">1</button>
+            <button class="circular-button" id="button2">2</button>
+            <button class="circular-button" id="button3">3</button>
+            <button class="circular-button" id="button4">4</button>
+            <button class="circular-button" id="button5">5</button>
+            <button class="circular-button" id="button6">6</button>
+            <button class="circular-button" id="button7">7</button>
+            <button class="circular-button" id="button8">8</button>
+            <button class="circular-button" id="button9">9</button>
+            <button class="circular-button" id="button10">10</button>
+            <button class="circular-button" id="button11">11</button>
+            <button class="circular-button" id="button12">12</button>
+            <button class="circular-button" id="button13">13</button>
+            <button class="circular-button" id="button14">14</button>
+            <button class="circular-button" id="button15">15</button>
+            <button class="circular-button" id="button16">16</button>
+            <button class="circular-button" id="button17">17</button>
+            <button class="circular-button" id="button18">18</button>
+            <button class="circular-button" id="button19">19</button>
+            <button class="circular-button" id="button20">20</button>
+            <button class="circular-button" id="button21">21</button>
+            <button class="circular-button" id="button22">22</button>
+            <button class="circular-button" id="button23">23</button>
+            <button class="circular-button" id="button24">24</button>
+            <button class="circular-button" id="button25">25</button>
+            <button class="circular-button" id="button26">26</button>
+            <button class="circular-button" id="button27">27</button>
+            <button class="circular-button" id="button28">28</button>
+            <button class="circular-button" id="button29">29</button>
+            <button class="circular-button" id="button30">30</button>
+            <button class="circular-button" id="button31">31</button>
+            <button class="circular-button" id="button32">32</button>
+            <button class="circular-button" id="button33">33</button>
+            <button class="circular-button" id="button34">34</button>
+            <button class="circular-button" id="button35">35</button>
+            <button class="circular-button" id="button36">36</button>
+            <button class="circular-button" id="button37">37</button>
+            <button class="circular-button" id="button38">38</button>
+            <button class="circular-button" id="button39">39</button>
+            <button class="circular-button" id="button40">40</button>
+            <button class="circular-button" id="button41">41</button>
+            <button class="circular-button" id="button42">42</button>
+            <button class="circular-button" id="button43">43</button>
+            <button class="circular-button" id="button44">44</button>
+            <button class="circular-button" id="button45">45</button>
+            <button class="circular-button" id="button46">46</button>
+            <button class="circular-button" id="button47">47</button>
+            <button class="circular-button" id="button48">48</button>
           </div>
           <div class="DivUlog">
-            <label style="margin-right: 15px;">Ulog:</label> 
+            <label id="labelUlog">Ulog:</label> 
             <div class="input-group-sm flex-nowrap">
-              <input type="text" class="form-control w-100 h-75" placeholder="RSD" aria-label="RSD" aria-describedby="addon-wrapping">
+              <input id="numberInput" type="text" class="form-control w-100 h-75" placeholder="RSD" aria-label="RSD" aria-describedby="addon-wrapping">
           </div>
-          <input type="checkbox" style="margin-left: 10px; margin-bottom: 10px; width: 30px;"></input>
+          <input type="checkbox" id="checkBoxxx"></input>
           </div>
         </div>
     </div>
     
     <footer>
-        <div class="bg-body-tertiary" style="border: 1px solid white; margin-top: 2px; height: 115px; display: flex; flex-direction: row; border-radius: 30px;">
-            <div class="KladjenjeNaBoje" style="width: 40%; font-size: 25px; display: flex; flex-direction: column; border-right: 1px solid black;">             
-              <label style="width: 100%; border-bottom: 1px solid black; padding-left: 15px ;">Boje</label>
-              <div class="DivIspodBoje" style="display: flex;">
-                <div class="SekcijabojeRed" style="background-color: rgb(255, 0, 0);">
+        <div class="bg-body-tertiary" id="footerr">
+            <div class="KladjenjeNaBoje" id="kladjenjeNaBoje">             
+              <label id="labelBoje">Boje</label>
+              <div class="DivIspodBoje" id="DivIspodBoje">
+                <div class="SekcijabojeRed">
                   <span class="broj1"></span>
                 </div>
-                <div class="SekcijabojeGreen" style="background-color: rgb(0, 255, 0)">
+                <div class="SekcijabojeGreen">
                   <span class="broj2"></span>
                 </div>
-                <div class="SekcijabojeYellow" style="background-color: rgb(205, 205, 0);">
+                <div class="SekcijabojeYellow">
                   <span class="broj3"></span>
                 </div>
-                <div class="SekcijabojeBlue" style="background-color: blue;">
+                <div class="SekcijabojeBlue">
                   <span class="broj4"></span>
                 </div>
-                <div class="SekcijabojeBlueviolet" style="background-color: blueviolet;">
+                <div class="SekcijabojeBlueviolet">
                   <span class="broj5"></span>
                 </div>
-                <div class="SekcijabojeOrange" style="background-color: orangered;">
+                <div class="SekcijabojeOrange">
                   <span class="broj6"></span>
                 </div>
-                <div class="SekcijabojeBlack" style="background-color: black;">
+                <div class="SekcijabojeBlack">
                   <span class="broj7"></span>
                 </div>
-                <div class="SekcijabojeBrown" style="background-color: rgb(99, 0, 0);">
+                <div class="SekcijabojeBrown">
                   <span class="broj8"></span>
                 </div>
               </div> 
             </div>
-            <div class="SumaPrvihPet" style="width: 13%; font-size: 25px; border-right: 1px solid black;">
-                <label style="width: 100%; border-bottom: 1px solid black; padding-left: 20px;">Suma prvih 5</label>
-                <label class="labelResult" style="margin-left: 60px; margin-top: 15px;"></label>
+            <div class="SumaPrvihPet" id="sumaPrvihPet">
+                <label id="labelSumaPrvih5">Suma prvih 5</label>
+                <label class="labelResult" id="LabelResult"></label>
             </div>
-            <div class="ParNepar" style="width: 28%; font-size: 25px; border-right: 1px solid black;">
-                <label style="width: 100%; border-bottom: 1px solid black; padding-left: 10px;">Par/Nepar</label>
-                <div class="Par" style="width: 100%; font-size: 25px; height: 35px; display: flex; flex-direction: column;">
-                    <label class="Par" style="padding-left: 10px; display: flex;">
+            <div class="ParNepar" id="parnepar">
+                <label id="labelparnepar">Par/Nepar</label>
+                <div class="Par" id="divpar">
+                    <label class="Par" id="labelpar">
                       Par
-                      <div class="divPar" style="width: 100%; display: flex;"></div>
+                      <div class="divPar" id="DIVPAR"></div>
                     </label>
-                    <label class="Nepar" style="padding-left: 10px;display: flex;">
+                    <label class="Nepar" id="labelnepar">
                       Nepar
-                      <div class="divNepar" style="width: 100%; display: flex;"></div>
+                      <div class="divNepar" id="DIVNEPAR"></div>
                     </label>
-                    <div class="Nepar" style="width: 100%; font-size: 25px; height: 35px;"></div>
+                    <div class="Nepar" id="NEPAR"></div>
                 </div>
             </div>
-            <div class="DivMinIJackpot" style="width: 19%; font-size: 25px; display: flex; flex-wrap: wrap;">
-                <label style="width: 50%; border-bottom: 1px solid black; padding-left: 10px; border-right: 1px solid black; height: 38px;">Minimalni</label>
-                <label style="width: 50%; border-bottom: 1px solid black; padding-left: 25px; height: 38px;">Jackpot</label>
-                <div class="divMin" style="border-right: 1px solid black;height: 77px; width: 50%; padding-left: 7px; padding-top: 12px;"></div>
-                <div class="divJackpot" style="height: 77px; width: 50%;"></div>
+            <div class="DivMinIJackpot" id="divminijackpot">
+                <label id="labelMinimalni">Minimalni</label>
+                <label id="labelMaximalni">Maksimalni</label>
+                <div class="divMin" id="divmin"></div>
+                <div class="divMax" id="divmax"></div>
             </div>
         </div>
         </div>
