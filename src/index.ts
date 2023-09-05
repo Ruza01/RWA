@@ -99,7 +99,7 @@ function shuffle(array: any){
     return newArray;
 }
 
-generateRandomNumbersAndColors();
+//generateRandomNumbersAndColors();
 
 function sumFirstFiveNumbers(shuffledResponse: any[]): number {  
     return shuffledResponse.reduce((acc, current, index) => {
@@ -183,99 +183,70 @@ function findMaximumNumber(numbers: any[]) {
     });
     return maximum;
 }
-//============================================do ovde sam sredjivao kod
+
 function generateJackpot(){
     const stopGenerating$ = new Subject();
 
-// Kreiranje prvog observabla (obs1)
-const obs1$ = new Observable((observer) => {
+    const obs1$ = new Observable((observable) => {
     setInterval(() => {
       const number = Math.round(Math.random() * 48) + 1;
-      observer.next(`${number}`);
+      observable.next(`${number}`);
     }, 500);
   });
 
-  // Kreiranje drugog observabla (obs2)
-  const obs2$ = new Observable((observer) => {
+    const obs2$ = new Observable((observable) => {
     setInterval(() => {
       const number = Math.round(Math.random() * 48) + 1;
-      observer.next(`${number}`);
+      observable.next(`${number}`);
 
     }, 500);
   });
   
-  // Spajanje oba observabla koristeći merge
   const mergedObservable = merge(obs1$, obs2$);
-  
-  // Pretvaranje rezultata u niz i ispisivanje na ekranu
+
   mergedObservable.pipe(
     takeUntil(stopGenerating$),
     take(6) 
   ).subscribe((result) => {
-   // Ovde dodajemo svaki broj u divJackpot
     const divJackpot = document.querySelector(".active");
     const numberElement = document.createElement("div");
-    numberElement.style.margin = '7px';
-    numberElement.style.border = '1px solid black';
-    numberElement.style.width = '50px';
-    numberElement.style.height = '50px';
-    numberElement.style.borderRadius = '40px';
-    numberElement.style.textAlign = 'center';
-    numberElement.style.alignItems = 'center';
-    numberElement.style.justifyContent = 'center';
-    numberElement.style.fontWeight = 'bold';
-    numberElement.style.backgroundColor = 'red';
-    numberElement.style.color = 'white';
-    numberElement.style.fontSize = '24px';
+    numberElement.className = 'numberEl';
     numberElement.textContent = `${result}`;
     divJackpot.appendChild(numberElement);
   });
 
-  // Nakon što su generirana 6 brojeva, emitiramo događaj za završetak generiranja
   setTimeout(() => {
     stopGenerating$.next(-1);
     stopGenerating$.complete();
-  }, 5000); // Ovdje možete postaviti željeni uvjet za završetak generiranja
+  }, 5000); 
 }
 
 generateJackpot();
 
-const myButton = document.getElementById('myButton') as HTMLButtonElement;
-
 function popuniTiket(): any {
-    // Pronađite sva dugmad po njihovim ID-ovima i sačuvajte ih u promenljive
-    const clickedElements: HTMLElement[] = [];
     const returnElements: string[] = [];
-    const buttons = Array.from(Array(48).keys()).map((i) => document.getElementById(`button${i + 1}`));
+    const buttons = Array.from(Array(48).keys())
+                    .map((i) => document.getElementById(`button${i + 1}`));
 
-    // Dodajte slušač događaja za svako dugme
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
-        // Promenite klasu dugmeta na "circular-button disabled"
-        button.style.backgroundColor = 'gray';
-        clickedElements.push(button);
-        //if (button instanceof HTMLInputElement) {
+            button.style.backgroundColor = 'gray';
             const buttonValue = button.textContent;
-            console.log(buttonValue);
             returnElements.push(buttonValue);
-            if(clickedElements.length == 6){
+            if(returnElements.length == 6){
                 console.log(returnElements);
                 return returnElements;
             }
-           
-            
-       // }
-        //button.disabled = true;
-        //button.classList.add('circular-button.disabled');
       })
     });
 
 }
 
-  // Pozovite funkciju kada se dokument učita
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {           //Konkretno, koristi se događaj 'DOMContentLoaded', što znači da će se funkcija izvršiti kada se HTML dokument potpuno učita i stranica bude spremna za interakciju s JavaScriptom.
     popuniTiket();
 });
+
+   
 
 
 

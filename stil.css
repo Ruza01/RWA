@@ -403,4 +403,24 @@
     border: 1px solid black;
 }
 
+.numberEl{
+    margin: 7px;
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    border-radius: 40px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: red;
+    color: white;
+    font-size: 24px ;
+}
+
+
+
+
+
+
 
