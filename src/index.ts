@@ -12,8 +12,10 @@ let countOrange = 0;
 let countBlack = 0;
 let countBrown = 0;
 let ticket = false;
-let ulog = 0;
-let checkBox = false;
+let ulog = false;
+let cb = false;
+const nizBrojeva: any[] = [];
+const returnElements: any[] = [];
 
 function getNumbers(): Observable<any>{
     const promise = fetch(url)
@@ -34,12 +36,14 @@ function generateRandomNumbersAndColors() {
         .pipe(
             switchMap(response => {
                 const shuffledResponse = shuffle(response);
-                const selectedNumbers = shuffledResponse.slice(0,35);                           //izdvaja podniz od niza,pocetak i kraj 0 i 35
+                const selectedNumbers = shuffledResponse.slice(0,35);                           
                 
                 return interval(1000).pipe(
-                    filter(i => i < selectedNumbers.length),                                    // Zadržavamo se dok ne dostignemo kraj niza
+                    filter(i => i < selectedNumbers.length),                                   
                     map(i => {
                         const randomItem = selectedNumbers[i];
+                        nizBrojeva.push(randomItem.id);
+                        console.log(randomItem.id);
                         colorCount(randomItem.color);
                         const parity = odrediParnost(randomItem.id);
                         const divParr = document.createElement("div");
@@ -54,7 +58,7 @@ function generateRandomNumbersAndColors() {
 
                         const newDiv = document.createElement("div");
                         newDiv.className = `kuglica${randomItem.id}`;
-                        newDiv.innerHTML = `<span class="broj">${randomItem.id}</span>`;
+                        newDiv.innerHTML = `<span class="broj">${randomItem.id}`;
                         newDiv.style.backgroundColor = randomItem.color;
                         if(i < 5){
                             document.querySelector('.bubanj').appendChild(newDiv);
@@ -63,6 +67,7 @@ function generateRandomNumbersAndColors() {
                             newDiv.style.display = 'inline-flex';
                             newDiv.style.margin = '10px';
                         }else{
+                            newDiv.innerHTML = `<span class="broj">${randomItem.id}</span><p class="kvota">${izracunajKvotu(i)}</p>`;
                             document.querySelector('.containerLoptice').appendChild(newDiv);
                         }
 
@@ -80,6 +85,8 @@ function generateRandomNumbersAndColors() {
                             minimalni.textContent = `${minimumNumber.id}`;
                             maximalni.textContent = `${maximumNumber.id}`;
                         }
+
+                        console.log(nizBrojeva);
                         
                         
                     })
@@ -98,8 +105,6 @@ function shuffle(array: any){
     }
     return newArray;
 }
-
-//generateRandomNumbersAndColors();
 
 function sumFirstFiveNumbers(shuffledResponse: any[]): number {  
     return shuffledResponse.reduce((acc, current, index) => {
@@ -221,60 +226,131 @@ function generateJackpot(){
   }, 5000); 
 }
 
-generateJackpot();
-
 function popuniTiket(): any {
-    const returnElements: string[] = [];
-    const buttons = Array.from(Array(48).keys())
-                    .map((i) => document.getElementById(`button${i + 1}`));
+    return new Promise<void>((resolve) => {
+        const buttons = Array.from(Array(48).keys())
+            .map((i) => document.getElementById(`button${i + 1}`));
 
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => {
-            button.style.backgroundColor = 'gray';
-            const buttonValue = button.textContent;
-            returnElements.push(buttonValue);
-            if(returnElements.length == 6){
-                console.log(returnElements);
-                return returnElements;
-            }
-      })
+        buttons.forEach((button) => {
+            button.addEventListener('click', () => {
+                button.style.backgroundColor = 'gray';
+                const buttonValue = button.textContent;
+                returnElements.push(buttonValue);
+                if (returnElements.length == 6) {
+                    console.log(returnElements);
+                    ticket = true;
+                    resolve();
+                }
+            });
+        });
     });
-
+}
+//Konkretno, koristi se događaj 'DOMContentLoaded', što znači da će se funkcija izvršiti kada se HTML dokument potpuno učita i stranica bude spremna za interakciju s JavaScriptom.
+function izracunajKvotu(index: number): number{
+    if(index == 5){
+        return 10000;
+    }else if(index == 6){
+        return 7500;
+    }else if(index == 7){
+        return 5000;
+    }else if(index == 8){
+        return 2500;
+    }else if(index == 9){
+        return 1000;
+    }else if(index == 10){
+        return 500;
+    }else if(index == 11){
+        return 300;
+    }else if(index == 12){
+        return 200;
+    }else if(index == 13){
+        return 150;
+    }else if(index == 14){
+        return 100;
+    }else if(index == 14){
+        return 90;
+    }else if(index == 15){
+        return 80;
+    }else if(index == 16){
+        return 70;
+    }else if(index == 17){
+        return 60;
+    }else if(index == 18){
+        return 50;
+    }else if(index == 19){
+        return 40;
+    }else if(index == 20){
+        return 30;
+    }else if(index == 21){
+        return 25;
+    }else if(index == 22){
+        return 20;
+    }else if(index == 23){
+        return 15;
+    }else if(index == 24){
+        return 10;
+    }else if(index == 25){
+        return 9;
+    }else if(index == 26){
+        return 8;
+    }else if(index == 27){
+        return 7;
+    }else if(index == 28){
+        return 6;
+    }else if(index == 29){
+        return 5;
+    }else if(index == 30){
+        return 4;
+    }else if(index == 31){
+        return 3;
+    }else if(index == 32){
+        return 2;
+    }else  return 1;
+    
 }
 
-document.addEventListener('DOMContentLoaded', () => {           //Konkretno, koristi se događaj 'DOMContentLoaded', što znači da će se funkcija izvršiti kada se HTML dokument potpuno učita i stranica bude spremna za interakciju s JavaScriptom.
-    popuniTiket();
+function getUlog() {
+    return new Promise<void>((resolve) => {
+        const numberInput = document.getElementById('numberInput') as HTMLInputElement;
+        numberInput.addEventListener('input', () => {
+            const inputValue = numberInput.value;
+            ulog = true;
+            console.log(inputValue);
+            resolve();
+        });
+    });
+}
+
+function isChecked() {
+    return new Promise<void>((resolve) => {
+        const checkBox = document.getElementById('checkBoxxx') as HTMLInputElement;
+        checkBox.addEventListener('click', () => {
+            if (checkBox.checked) {
+                cb = true;
+                console.log('checked');
+            } else {
+                cb = false;
+                console.log('notChecked');
+            }
+            resolve();
+        });
+    });
+}
+
+async function startGame() {
+    await popuniTiket();                //bez await-a, funkcije bi se izvrsavale asinhrono, odnosno pre nego sto bi se desili odgovarajuci eventListener-i(pre nego da korisnik interaguje sa stranicom)
+    await getUlog();
+    await isChecked();
+
+    if (ticket && ulog && cb) {
+        generateRandomNumbersAndColors();
+        generateJackpot();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    startGame();
 });
-
-   
-
-
-
-
-
-
-// function Ulog() {
-//         const inputEl = document.querySelector(".form-control");
-//         // da li je inputEl nadjen
-//         if (inputEl instanceof HTMLInputElement) {
-//             const inputValue = inputEl.textContent;
-//             //const numericValue = parseFloat(inputValue);
-//             console.log(inputValue);
-//            //return inputValue;
-//         }
-// }
-
-// Ulog();
-
-
-// function startGame(){
-//     if(checkBox == true){
-//         ulog = Ulog();
-//         console.log(ulog);
-//     }
-// }
-
-// startGame();
 
 
 
