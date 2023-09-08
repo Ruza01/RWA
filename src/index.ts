@@ -1,5 +1,6 @@
-import {BehaviorSubject, of, Observable, Subject, Subscription, concatMap, delay, filter, from, fromEvent, interval, map, switchMap, take, takeUntil, takeWhile, tap, timer, zip, merge, toArray} from "rxjs";
+import {BehaviorSubject, of, Observable, Subject, Subscription, concatMap, delay, filter, from, fromEvent, interval, map, switchMap, take, takeUntil, takeWhile, tap, timer, zip, merge, toArray, elementAt} from "rxjs";
 import { LuckySix } from "./LuckySix";
+import { resolve } from "../webpack.config";
 
 
 const url = "http://localhost:3000/lucky-six";
@@ -15,7 +16,11 @@ let ticket = false;
 let ulog = false;
 let cb = false;
 const nizBrojeva: any[] = [];
-const returnElements: any[] = [];
+const returnElements: any[] = []; 
+let generatedNumbers: any[] = []; 
+let ticketNumbers: any[] = [];
+let i = 0;
+let inputValue: any;
 
 function getNumbers(): Observable<any>{
     const promise = fetch(url)
@@ -31,8 +36,9 @@ function getNumbers(): Observable<any>{
         return from(promise);
 }
 
-function generateRandomNumbersAndColors() {
-    getNumbers()
+function generateRandomNumbersAndColors(): any {
+    return new Promise((resolve) => {
+        getNumbers()
         .pipe(
             switchMap(response => {
                 const shuffledResponse = shuffle(response);
@@ -84,9 +90,11 @@ function generateRandomNumbersAndColors() {
                             let maximalni = document.querySelector(".divMax");
                             minimalni.textContent = `${minimumNumber.id}`;
                             maximalni.textContent = `${maximumNumber.id}`;
+                            resolve(nizBrojeva);
                         }
 
                         console.log(nizBrojeva);
+                        //return nizBrojeva;
                         
                         
                     })
@@ -95,6 +103,7 @@ function generateRandomNumbersAndColors() {
             })
         )
         .subscribe();
+    });
 }
 
 function shuffle(array: any){
@@ -189,41 +198,47 @@ function findMaximumNumber(numbers: any[]) {
     return maximum;
 }
 
-function generateJackpot(){
-    const stopGenerating$ = new Subject();
+function generateJackpot(): any{
+    return new Promise<void>((resolve) => { 
+        const stopGenerating$ = new Subject();
 
-    const obs1$ = new Observable((observable) => {
-    setInterval(() => {
-      const number = Math.round(Math.random() * 48) + 1;
-      observable.next(`${number}`);
-    }, 500);
-  });
+        const obs1$ = new Observable((observable) => {
+            setInterval(() => {
+            const number = Math.round(Math.random() * 48) + 1;
+            observable.next(`${number}`);
+            }, 500);
+        });
 
-    const obs2$ = new Observable((observable) => {
-    setInterval(() => {
-      const number = Math.round(Math.random() * 48) + 1;
-      observable.next(`${number}`);
+        const obs2$ = new Observable((observable) => {
+            setInterval(() => {
+            const number = Math.round(Math.random() * 48) + 1;
+            observable.next(`${number}`);
+            }, 500);
+        });
+    
+    
+        const mergedObservable = merge(obs1$, obs2$);
 
-    }, 500);
-  });
-  
-  const mergedObservable = merge(obs1$, obs2$);
+        mergedObservable.pipe(
+            takeUntil(stopGenerating$),
+            take(6) 
+        ).subscribe((result) => {
+            const divJackpot = document.querySelector(".active");
+            const numberElement = document.createElement("div");
+            numberElement.className = 'numberEl';
+            numberElement.textContent = `${result}`;
+            divJackpot.appendChild(numberElement);
+        });
 
-  mergedObservable.pipe(
-    takeUntil(stopGenerating$),
-    take(6) 
-  ).subscribe((result) => {
-    const divJackpot = document.querySelector(".active");
-    const numberElement = document.createElement("div");
-    numberElement.className = 'numberEl';
-    numberElement.textContent = `${result}`;
-    divJackpot.appendChild(numberElement);
-  });
+        setTimeout(() => {
+            stopGenerating$.next(-1);
+            stopGenerating$.complete();
+            resolve();
+        }, 5000); 
 
-  setTimeout(() => {
-    stopGenerating$.next(-1);
-    stopGenerating$.complete();
-  }, 5000); 
+    });
+
+
 }
 
 function popuniTiket(): any {
@@ -235,11 +250,12 @@ function popuniTiket(): any {
             button.addEventListener('click', () => {
                 button.style.backgroundColor = 'gray';
                 const buttonValue = button.textContent;
-                returnElements.push(buttonValue);
+                returnElements.push(parseInt(buttonValue));
                 if (returnElements.length == 6) {
                     console.log(returnElements);
                     ticket = true;
                     resolve();
+                    return returnElements;
                 }
             });
         });
@@ -267,45 +283,48 @@ function izracunajKvotu(index: number): number{
         return 150;
     }else if(index == 14){
         return 100;
-    }else if(index == 14){
-        return 90;
     }else if(index == 15){
-        return 80;
+        return 90;
     }else if(index == 16){
-        return 70;
+        return 80;
     }else if(index == 17){
-        return 60;
+        return 70;
     }else if(index == 18){
-        return 50;
+        return 60;
     }else if(index == 19){
-        return 40;
+        return 50;
     }else if(index == 20){
-        return 30;
+        return 40;
     }else if(index == 21){
-        return 25;
+        return 30;
     }else if(index == 22){
-        return 20;
+        return 25;
     }else if(index == 23){
-        return 15;
+        return 20;
     }else if(index == 24){
-        return 10;
+        return 15;
     }else if(index == 25){
-        return 9;
+        return 10;
     }else if(index == 26){
-        return 8;
+        return 9;
     }else if(index == 27){
-        return 7;
+        return 8;
     }else if(index == 28){
-        return 6;
+        return 7;
     }else if(index == 29){
-        return 5;
+        return 6;
     }else if(index == 30){
-        return 4;
+        return 5;
     }else if(index == 31){
-        return 3;
+        return 4;
     }else if(index == 32){
+        return 3;
+    }else if(index == 33){
         return 2;
-    }else  return 1;
+    }else  if(index == 34){
+        return 1;
+    }else return 0;
+
     
 }
 
@@ -313,7 +332,7 @@ function getUlog() {
     return new Promise<void>((resolve) => {
         const numberInput = document.getElementById('numberInput') as HTMLInputElement;
         numberInput.addEventListener('input', () => {
-            const inputValue = numberInput.value;
+            inputValue = numberInput.value;
             ulog = true;
             console.log(inputValue);
             resolve();
@@ -338,24 +357,64 @@ function isChecked() {
 }
 
 async function startGame() {
-    await popuniTiket();                //bez await-a, funkcije bi se izvrsavale asinhrono, odnosno pre nego sto bi se desili odgovarajuci eventListener-i(pre nego da korisnik interaguje sa stranicom)
+    await popuniTiket();             //bez await-a, funkcije bi se izvrsavale asinhrono, odnosno pre nego sto bi se desili odgovarajuci eventListener-i(pre nego da korisnik interaguje sa stranicom)
     await getUlog();
     await isChecked();
 
     if (ticket && ulog && cb) {
-        generateRandomNumbersAndColors();
-        generateJackpot();
+        await generateJackpot();
+        await generateRandomNumbersAndColors();
+        await win(returnElements,nizBrojeva);
+
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     startGame();
 });
 
+function restartGame() {
+    const restartButton = document.getElementById('restartBalls');
+    restartButton.addEventListener('click', () => {
+        location.reload(); 
+    });
+}
 
+document.addEventListener('DOMContentLoaded', () => {
+    restartGame();
+});
 
+function win(returnElements: any[], nizBrojeva: any[]): void {
+    let foundNumbers: any[] = [];
+    
+    returnElements.forEach((element: any) => {
+        if (nizBrojeva.includes(element)) {
+            foundNumbers.push(element);
+            i++;
+            console.log(`Element ${element}, a ubacujem u niz ${foundNumbers}`);
+        }
+    });
 
+    let lastNumber = foundNumbers[i];
 
+    if (foundNumbers.length === 6) {
+        let index = findIndexInNizBrojeva(lastNumber);
+        console.log(index);
+        let kvota = izracunajKvotu(index);
+        console.log(kvota);
+        let calculateWin = kvota * inputValue;
+        alert(`Čestitamo, dobili ste ${calculateWin}RSD!`);
+    } else {
+        alert("Više sreće drugi put!");
+    }
+
+}
+
+function findIndexInNizBrojeva(broj: number): number {
+    const index = nizBrojeva.indexOf(broj);
+    return index;
+}
 
 
 
