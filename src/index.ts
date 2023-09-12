@@ -44,7 +44,7 @@ function generateRandomNumbersAndColors(): any {
                 const shuffledResponse = shuffle(response);
                 const selectedNumbers = shuffledResponse.slice(0,35);                           
                 
-                return interval(1000).pipe(
+                return interval(3000).pipe(
                     filter(i => i < selectedNumbers.length),                                   
                     map(i => {
                         const randomItem = selectedNumbers[i];
@@ -93,10 +93,7 @@ function generateRandomNumbersAndColors(): any {
                             resolve(nizBrojeva);
                         }
 
-                        console.log(nizBrojeva);
-                        //return nizBrojeva;
-                        
-                        
+                        console.log(nizBrojeva);                        
                     })
                 );
 
@@ -110,7 +107,7 @@ function shuffle(array: any){
     const newArray = [...array];                                                             
     for (let i = newArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];                               
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];                            
     }
     return newArray;
 }
@@ -261,7 +258,7 @@ function popuniTiket(): any {
         });
     });
 }
-//Konkretno, koristi se događaj 'DOMContentLoaded', što znači da će se funkcija izvršiti kada se HTML dokument potpuno učita i stranica bude spremna za interakciju s JavaScriptom.
+
 function izracunajKvotu(index: number): number{
     if(index == 5){
         return 10000;
@@ -357,7 +354,7 @@ function isChecked() {
 }
 
 async function startGame() {
-    await popuniTiket();             //bez await-a, funkcije bi se izvrsavale asinhrono, odnosno pre nego sto bi se desili odgovarajuci eventListener-i(pre nego da korisnik interaguje sa stranicom)
+    await popuniTiket();             
     await getUlog();
     await isChecked();
 
@@ -368,7 +365,6 @@ async function startGame() {
 
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
     startGame();
@@ -385,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
     restartGame();
 });
 
-function win(returnElements: any[], nizBrojeva: any[]): void {
+async function win(returnElements: any[], nizBrojeva: any[]) {
     let foundNumbers: any[] = [];
     
     returnElements.forEach((element: any) => {
